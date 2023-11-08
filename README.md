@@ -50,7 +50,16 @@ sudo gitlab-rake 'gitlab:password:reset[root]'
 
 ## Gitlab Runner
 We have 2 solutions to install gitlab runner 
-- Native install on linux 
+- Native install on Linux 
+```sh
+# Based on AMI 2023
+# Add the official GitLab repository
+curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.rpm.sh" | sudo bash
+
+# Install the latest version of GitLab Runner
+sudo yum install gitlab-runner
+```
+
 - Docker container
   
 ```yaml
@@ -100,3 +109,9 @@ sudo gitlab-runner register
   --access-level="not_protected" \
   --docker-privileged
 ```
+
+# References
+- [AWS Market Place Gitlab Community Edition](https://aws.amazon.com/marketplace/server/fulfillment?deliveryMethod=4fd521c2-9d5d-4e1a-a34b-66ef9ca0c8e4&productId=4fd521c2-9d5d-4e1a-a34b-66ef9ca0c8e4&region=ap-southeast-1&version=86e24600-544e-4792-8eb5-7b56ca8a96e8&ami=ami-0ac77c9ad3d21e0c3&ref_=cfg_full_continue)
+- [Install GitLab Runner using the official GitLab repositories](https://docs.gitlab.com/runner/install/linux-repository.html)
+- [Migrating to the new runner registration workflow](https://docs.gitlab.com/ee/ci/runners/new_creation_workflow)
+- [CI/CD YAML syntax reference](https://docs.gitlab.com/ee/ci/yaml/)
