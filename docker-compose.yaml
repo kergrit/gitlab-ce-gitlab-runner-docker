@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  web:
+    image: "gitlab/gitlab-ce:latest"
+    restart: always
+    hostname: "54.169.192.203"
+    container_name: gitlab-ce
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://54.169.192.203/'
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "/mnt/efs/fs1/gitlab/config:/etc/gitlab"
+      - "/mnt/efs/fs1/gitlab/logs:/var/log/gitlab"
+      - "/mnt/efs/fs1/gitlab/data:/var/opt/gitlab"
+    networks:
+      - gitlab
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    container_name: gitlab-runner
+    restart: always
+    depends_on:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "/mnt/efs/fs1/gitlab/gitlab-runner:/etc/gitlab-runner"
+    networks:
+      - gitlab
+
+networks:
+  gitlab:
+    name: gitlab-network
